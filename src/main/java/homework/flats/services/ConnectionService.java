@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.jdbcproject.flats;
+package homework.flats.services;
 
+import homework.flats.init.PropertyReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -18,14 +19,14 @@ import java.util.logging.Logger;
  */
 public class ConnectionService {
     
-    private static PropertyReader propReader;
+    private PropertyReader propReader;
     
     public ConnectionService(PropertyReader propReader){  
         this.propReader = propReader;
         
     }
     
-    public static Connection getConnection(){
+    public Connection getConnection(){
       Properties property = propReader.getProperties();
       Connection connection = null;  
         try {

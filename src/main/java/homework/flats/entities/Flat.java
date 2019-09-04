@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.jdbcproject.flats.entities;
+package homework.flats.entities;
 
 /**
  *
@@ -13,14 +13,14 @@ public class Flat {
     private String region;
     private Address address;
     private int rooms;    
-    private double squeare;
+    private int squeare;
     private double price;
     
     public Flat(){
         
     }
 
-    public Flat(String region, Address address, int rooms, double squeare, double price) {
+    public Flat(String region, Address address, int rooms, int squeare, double price) {
         this.region = region;
         this.address = address;                
         this.rooms = rooms;
@@ -57,7 +57,7 @@ public class Flat {
         return squeare;
     }
 
-    public void setSqueare(double squeare) {
+    public void setSqueare(int squeare) {
         this.squeare = squeare;
     }
 
