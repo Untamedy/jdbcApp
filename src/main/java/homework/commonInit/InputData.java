@@ -1,6 +1,5 @@
-package homework.flats.init;
+package homework.commonInit;
 
-import homework.flats.services.ConnectionService;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;

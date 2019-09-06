@@ -10,6 +10,8 @@ package homework.flats.entities;
  * @author Lenovo
  */
 public class Flat {
+    
+    private int id;
     private String region;
     private Address address;
     private int rooms;    
@@ -20,7 +22,8 @@ public class Flat {
         
     }
 
-    public Flat(String region, Address address, int rooms, int squeare, double price) {
+    public Flat(int id, String region, Address address, int rooms, int squeare, double price) {
+        this.id = id;
         this.region = region;
         this.address = address;                
         this.rooms = rooms;
@@ -69,6 +72,15 @@ public class Flat {
         this.price = price;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    
     @Override
     public String toString() {
         return "Flat{" + "region=" + region + ", address=" + address.toString() + ", rooms=" + rooms + ", squeare=" + squeare + ", price=" + price + '}';

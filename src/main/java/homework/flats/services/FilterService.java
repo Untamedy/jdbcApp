@@ -1,5 +1,6 @@
 package homework.flats.services;
 
+import homework.commonInit.ConnectionService;
 import homework.flats.entities.Address;
 import homework.flats.entities.Flat;
 import java.sql.Connection;
@@ -76,6 +77,7 @@ public class FilterService {
 
     public Flat createNewFlat(ResultSet resultSet) throws SQLException {
         Flat flat = new Flat();
+        flat.setId(resultSet.getInt("id"));
         flat.setRegion(resultSet.getNString("region"));
         flat.setRooms(resultSet.getInt("room"));
         flat.setSqueare(resultSet.getInt("square"));
