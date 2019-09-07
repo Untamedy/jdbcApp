@@ -9,17 +9,16 @@ import java.util.List;
 public class Order {
     
     private int id;
-    private int code;
-    private Customer customer;
+    private String code;
+    private Client client;
     private List<Goods> goods;
 
     public Order() {
     }
 
-    public Order(int id, int code, Customer customer, List<Goods> goods) {
-        this.id = id;
+    public Order( String code, Client client, List<Goods> goods) {       
         this.code = code;
-        this.customer = customer;
+        this.client = client;
         this.goods = goods;
     }
 
@@ -31,20 +30,20 @@ public class Order {
         this.id = id;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public Client getCustomer() {
+        return client;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setCustomer(Client customer) {
+        this.client = customer;
     }
 
     public List<Goods> getGoods() {
