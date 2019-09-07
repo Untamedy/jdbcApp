@@ -48,7 +48,7 @@ public class GoodsService {
         Goods goods = null;
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select* from Goods where articul=" + articul);
+            ResultSet resultSet = statement.executeQuery("select * from Goods where articul=" + articul);
             if (null != resultSet) {
                 goods = new Goods();
                 goods.setId(resultSet.getInt("id"));
@@ -65,7 +65,7 @@ public class GoodsService {
     public List<Goods> getGoodsByOrdersId(int orderId) throws SQLException{
         List<Goods> goods = new ArrayList<>();
        Statement statement = connection.createStatement();      
-      List<ResultSet> resultSet = (List<ResultSet>) statement.executeQuery("select * from Goods inner join Order_Goods on order_goods.order_id="+orderId+" and order_goods.goods_id = Goods.id");
+      List<ResultSet> resultSet = (List<ResultSet>) statement.executeQuery("select * from Goods inner join Orders_Goods on Orders_Goods.order_id="+orderId+" and Orders_Goods.goods_id = Goods.id");
       resultSet.forEach((r)->{
             try {
                 Goods newGoods = createGoods(r);

@@ -12,42 +12,31 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
-
-
-
-
-
 /**
  *
  * @author Lenovo
  */
 public class PropertyReader {
-    
+
     private final Properties property = new Properties();
     private String path;
-    
-    public PropertyReader(String path){
-        this.path=path;
-        
+
+    public PropertyReader(String path) {
+        this.path = path;
     }
-    
-    public Properties getProperties(){
+
+    public Properties getProperties() {
         try {
-            FileReader reader = null;
-            
-            try {
-                reader = new FileReader(path);
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(PropertyReader.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            FileReader reader = new FileReader(path);
             property.load(reader);
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(PropertyReader.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(PropertyReader.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         return property;
     }
-    
-    
-    
+
 }

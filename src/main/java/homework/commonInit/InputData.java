@@ -15,6 +15,7 @@ import java.util.logging.Logger;
  */
 public class InputData {
 
+    private static final Logger LOGGER = Logger.getLogger(InputData.class.getName());
     private ConnectionService connectionService;
 
     public InputData() {
@@ -26,19 +27,16 @@ public class InputData {
 
     public void executeSQL(String path) {
         Connection connection = connectionService.getConnection();
-        Statement statement = null;       
-        try(BufferedReader reader = new BufferedReader(new FileReader(path))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
             String line = "";
-            while((line = reader.readLine())!=null){
-            statement = connection.createStatement();
-            statement.addBatch(line); 
-            }   
+            Statement statement = connection.createStatement();
+            while ((line = reader.readLine()) != null) {               
+                statement.addBatch(line);
+            }
             statement.executeBatch();
         } catch (SQLException | IOException ex) {
             Logger.getLogger(InputData.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
 
 }

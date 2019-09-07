@@ -21,7 +21,7 @@ public class ClientService {
     private ConnectionService connectionService;
     private final Connection connection = connectionService.getConnection();
 
-    String addClisent = "INSERT into Client (name,personalNum) values (?,?) ";
+    String addClisent = "INSERT into Client (name,phoneNum) values (?,?) ";
 
     public ClientService() {
     }
@@ -47,7 +47,7 @@ public class ClientService {
         Client client = null;
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select* from Client where phoneNumber=" + phoneNumber);
+            ResultSet resultSet = statement.executeQuery("select* from Client where phoneNum=" + phoneNumber);
             if (null != resultSet) {
                 client = new Client();
                 client.setId(resultSet.getInt("id"));

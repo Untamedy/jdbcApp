@@ -5,7 +5,7 @@
  */
 package homework.commonInit;
 
-import homework.commonInit.PropertyReader;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -27,10 +27,10 @@ public class ConnectionService {
     }
     
     public Connection getConnection(){
-      Properties property = propReader.getProperties();
-      Connection connection = null;  
+      Properties property = propReader.getProperties();   
+      Connection connection = null;
         try {
-            connection = DriverManager.getConnection(property.getProperty("url"), "login", "password");
+        connection = DriverManager.getConnection(property.getProperty("url"),property.getProperty("login"),property.getProperty("password"));
         } catch (SQLException ex) {
             Logger.getLogger(ConnectionService.class.getName()).log(Level.SEVERE, null, ex);
         }

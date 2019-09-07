@@ -1,4 +1,3 @@
-CREATE TABLE Flat (id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,region VARCHAR(30) NOT NULL,addressId INT(30) NOT NULL,room INT NOT NULL, prise DOUBLE
-CREATE TABLE Flat (id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,street VARCHAR(30) NOT NULL,buildNum INT(30) NOT NULL
-
+CREATE TABLE flat.flats (id int NOT NULL,region varchar(50) NOT NULL,addressId int NOT NULL,room int NOT NULL,square int NOT NULL, price int NOT NULL)
+CREATE TABLE flat.address(id int NOT NULL,street varchar(30) NOT NULL,buildNum int NOT NULL)
 

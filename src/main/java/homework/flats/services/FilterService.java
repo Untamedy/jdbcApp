@@ -19,10 +19,17 @@ import java.util.logging.Logger;
 public class FilterService {
 
     private ConnectionService connectionService;
-    private final Connection connection = connectionService.getConnection();
+    private Connection connection; 
 
     public FilterService() {
     }
+
+    public FilterService(ConnectionService connectionService) {
+        this.connectionService = connectionService;
+        this.connection = connectionService.getConnection();
+    }
+    
+    
 
     public List<Flat> selectBy(String selectBy, int min, int max) {
         List<Flat> flats = new ArrayList<>();
@@ -40,7 +47,7 @@ public class FilterService {
         List<Flat> flats = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
-            List<ResultSet> results = (List<ResultSet>) statement.executeQuery("select * from Flat where region=" + region);
+            List<ResultSet> results = (List<ResultSet>) statement.executeQuery("select * from flat.flats where region=" + region);
             flats = createFlats(results);
         } catch (SQLException ex) {
             Logger.getLogger(FilterService.class.getName()).log(Level.SEVERE, null, ex);
