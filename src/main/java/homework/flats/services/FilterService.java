@@ -47,7 +47,7 @@ public class FilterService {
         List<Flat> flats = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
-            List<ResultSet> results = (List<ResultSet>) statement.executeQuery("select * from flat.flats where region=" + region);
+            List<ResultSet> results = (List<ResultSet>) statement.executeQuery("select * from flats where region=" + region);
             flats = createFlats(results);
         } catch (SQLException ex) {
             Logger.getLogger(FilterService.class.getName()).log(Level.SEVERE, null, ex);
@@ -59,7 +59,7 @@ public class FilterService {
         List<Flat> flats = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from Address where street=" + street + "and build=" + build);
+            ResultSet resultSet = statement.executeQuery("select * from address where street=" + street + "and build=" + build);
             List<ResultSet> resultSets = (List<ResultSet>) statement.executeQuery("select * from Flat where addressId=" + resultSet.getInt("id"));
             flats = createFlats(resultSets);
         } catch (SQLException ex) {

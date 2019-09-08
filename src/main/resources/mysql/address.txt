@@ -1,0 +1,36 @@
+INSERT INTO `mydb`.`address`
+(
+`street`,
+`buildId`)
+VALUES
+(
+'First', 2);
+INSERT INTO `mydb`.`address`
+(
+`street`,
+`buildId`)
+VALUES
+('Second', 23);
+INSERT INTO `mydb`.`address`
+(
+`street`,
+`buildId`)
+VALUES
+(''Fourth', 5);
+INSERT INTO `mydb`.`address`
+(
+`street`,
+`buildId`)
+VALUES
+(
+'Fifth', 1);
+INSERT INTO `mydb`.`address`
+(
+`street`,
+`buildId`)
+VALUES
+('Third', 28);
+
+
+
+
