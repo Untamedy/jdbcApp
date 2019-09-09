@@ -1,12 +1,2 @@
-CREATE TABLE `mydb`.`address` (
-  `id` INT NOT NULL,
-  `street` VARCHAR(255) NULL,
-  `buildId` INT NOT NULL);
-CREATE TABLE `mydb`.`flats` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `region` VARCHAR(45) NULL,
-  `addressId` INT NOT NULL,
-  `room` INT NOT NULL,
-  `square` INT NOT NULL,
-  `price` DOUBLE NULL,
-  PRIMARY KEY (`id`));
+CREATE TABLE mydb.address(id INT  AUTO_INCREMENT, street VARCHAR(255) NULL, buildNum INT NOT NULL, PRIMARY KEY (id));
+CREATE TABLE mydb.flats (id INT AUTO_INCREMENT, region VARCHAR(45) NULL, addressId INT NOT NULL, room INT NOT NULL, square INT NOT NULL, price DOUBLE NULL, PRIMARY KEY (id));

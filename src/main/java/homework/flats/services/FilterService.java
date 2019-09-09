@@ -1,6 +1,6 @@
 package homework.flats.services;
 
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.Particle;
+
 import homework.commonInit.ConnectionService;
 import homework.flats.entities.Address;
 import homework.flats.entities.Flat;
@@ -34,7 +34,7 @@ public class FilterService {
         List<Flat> flats = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
-            ResultSet results = statement.executeQuery("select * from flat.flats where " + parameter + " > " + min + " and " + parameter + " < " + max);
+            ResultSet results = statement.executeQuery("select * from mydb.flats where " + parameter + " > " + min + " and " + parameter + " < " + max);
             flats = createFlats(results);
 
         } catch (SQLException ex) {
@@ -47,7 +47,7 @@ public class FilterService {
         List<Flat> flats = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
-            ResultSet results = statement.executeQuery("select * from flat.flats where region=" + region);
+            ResultSet results = statement.executeQuery("select * from mydb.flats where region=" + region);
             flats = createFlats(results);
         } catch (SQLException ex) {
             Logger.getLogger(FilterService.class.getName()).log(Level.SEVERE, null, ex);
@@ -59,8 +59,8 @@ public class FilterService {
         List<Flat> flats = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from flat.address where street=" + street + "and build=" + build);
-            ResultSet resultSets = statement.executeQuery("select * from flat.flat where addressId=" + resultSet.getInt("id"));
+            ResultSet resultSet = statement.executeQuery("select * from mydb.address where street=" + street + "and build=" + build);
+            ResultSet resultSets = statement.executeQuery("select * from mydb.flat where addressId=" + resultSet.getInt("id"));
             flats = createFlats(resultSets);
         } catch (SQLException ex) {
             Logger.getLogger(FilterService.class.getName()).log(Level.SEVERE, null, ex);
@@ -94,7 +94,7 @@ public class FilterService {
         Address address = new Address();
         try {
             statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from flat.address where id=" + id);
+            ResultSet resultSet = statement.executeQuery("select * from mydb.address where id=" + id);
             if (resultSet.next()) {
                 address.setStreet(resultSet.getString("street"));
                 address.setBuildNum(resultSet.getInt("buildNum"));
