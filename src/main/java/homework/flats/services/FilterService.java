@@ -1,5 +1,6 @@
 package homework.flats.services;
 
+import com.sun.xml.internal.bind.v2.schemagen.xmlschema.Particle;
 import homework.commonInit.ConnectionService;
 import homework.flats.entities.Address;
 import homework.flats.entities.Flat;
@@ -19,7 +20,7 @@ import java.util.logging.Logger;
 public class FilterService {
 
     private ConnectionService connectionService;
-    private Connection connection; 
+    private Connection connection;
 
     public FilterService() {
     }
@@ -28,15 +29,14 @@ public class FilterService {
         this.connectionService = connectionService;
         this.connection = connectionService.getConnection();
     }
-    
-    
 
-    public List<Flat> selectBy(String selectBy, int min, int max) {
+    public List<Flat> selectBy(Parameters parameter, int min, int max) {
         List<Flat> flats = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
-            List<ResultSet> results = (List<ResultSet>) statement.executeQuery("select * from Flat where" + selectBy + ">=" + min + " and " + selectBy + "<=" + max);
+            ResultSet results = statement.executeQuery("select * from flat.flats where " + parameter + " > " + min + " and " + parameter + " < " + max);
             flats = createFlats(results);
+
         } catch (SQLException ex) {
             Logger.getLogger(FilterService.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -47,7 +47,7 @@ public class FilterService {
         List<Flat> flats = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
-            List<ResultSet> results = (List<ResultSet>) statement.executeQuery("select * from flats where region=" + region);
+            ResultSet results = statement.executeQuery("select * from flat.flats where region=" + region);
             flats = createFlats(results);
         } catch (SQLException ex) {
             Logger.getLogger(FilterService.class.getName()).log(Level.SEVERE, null, ex);
@@ -59,8 +59,8 @@ public class FilterService {
         List<Flat> flats = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from address where street=" + street + "and build=" + build);
-            List<ResultSet> resultSets = (List<ResultSet>) statement.executeQuery("select * from Flat where addressId=" + resultSet.getInt("id"));
+            ResultSet resultSet = statement.executeQuery("select * from flat.address where street=" + street + "and build=" + build);
+            ResultSet resultSets = statement.executeQuery("select * from flat.flat where addressId=" + resultSet.getInt("id"));
             flats = createFlats(resultSets);
         } catch (SQLException ex) {
             Logger.getLogger(FilterService.class.getName()).log(Level.SEVERE, null, ex);
@@ -68,28 +68,24 @@ public class FilterService {
         return flats;
     }
 
-    public List<Flat> createFlats(List<ResultSet> resultSets) throws SQLException {
+    public List<Flat> createFlats(ResultSet resultSet) throws SQLException {
         List<Flat> flats = new ArrayList<>();
-        resultSets.forEach((ResultSet r) -> {
-            try {
-                Flat flat = createNewFlat(r);
-                flats.add(flat);
-            } catch (SQLException ex) {
-                Logger.getLogger(FilterService.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        while (resultSet.next()) {
+            Flat flat = createNewFlat(resultSet);
+            flats.add(flat);
         }
-        );
         return flats;
     }
 
     public Flat createNewFlat(ResultSet resultSet) throws SQLException {
-        Flat flat = new Flat();
-        flat.setId(resultSet.getInt("id"));
-        flat.setRegion(resultSet.getNString("region"));
-        flat.setRooms(resultSet.getInt("room"));
-        flat.setSqueare(resultSet.getInt("square"));
-        flat.setPrice(resultSet.getDouble("price"));
-        flat.setAddress(getAddress(resultSet.getInt("id")));
+        Flat flat = new Flat();        
+            flat.setId(resultSet.getInt("id"));
+            flat.setRegion(resultSet.getString("region"));
+            flat.setRooms(resultSet.getInt("room"));
+            flat.setSqueare(resultSet.getInt("square"));
+            flat.setPrice(resultSet.getDouble("price"));
+            flat.setAddress(getAddress(resultSet.getInt("addressId")));      
+
         return flat;
     }
 
@@ -98,14 +94,31 @@ public class FilterService {
         Address address = new Address();
         try {
             statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from address where id=" + id);
+            ResultSet resultSet = statement.executeQuery("select * from flat.address where id=" + id);
+            if (resultSet.next()) {
+                address.setStreet(resultSet.getString("street"));
+                address.setBuildNum(resultSet.getInt("buildNum"));
+            }
 
-            address.setStreet(resultSet.getString("street"));
-            address.setBuildNum(resultSet.getInt("buildNum"));
         } catch (SQLException ex) {
             Logger.getLogger(FilterService.class.getName()).log(Level.SEVERE, null, ex);
         }
         return address;
     }
+
+    private ResultSet hasNext(ResultSet resultSet) throws SQLException {
+        ResultSet result = null;
+        if (resultSet.next()) {
+            result = resultSet;
+            return result;
+        }
+        return result;
+    }
+    
+    public static enum Parameters {
+      price,
+      square,
+      room
+}
 
 }

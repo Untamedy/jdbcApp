@@ -1,6 +1,5 @@
-INSERT INTO flat.address (id,street,buildNum) values(1,'First', 2)
-INSERT INTO flat.address (id,street,buildNum) values(2,'Second', 23)
-INSERT INTO flat.address (id,street,buildNum) values(3,'Third', 28)
-INSERT INTO flat.address (id,street,buildNum) values(4,'Fourth', 5)
-INSERT INTO flat.address (id,street,buildNum) values(5,'Fifth', 1)
-
+INSERT INTO flat.address (street,buildNum) values('First', 2)
+INSERT INTO flat.address (street,buildNum) values('Second', 23)
+INSERT INTO flat.address (street,buildNum) values('Third', 28)
+INSERT INTO flat.address (street,buildNum) values('Fourth', 5)
+INSERT INTO flat.address (street,buildNum) values('Fifth', 1)
