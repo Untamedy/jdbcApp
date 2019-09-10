@@ -1,0 +1,6 @@
+INSERT INTO `mydb`.`clients`(name,phoneNum)VALUES('WillaRoza','098123765');
+INSERT INTO `mydb`.`clients`(name,phoneNum)VALUES('OTT','098765765');
+INSERT INTO `mydb`.`clients`(name,phoneNum)VALUES('Jack','09822365');
+INSERT INTO `mydb`.`clients`(name,phoneNum)VALUES('Sofino','098546765');
+INSERT INTO `mydb`.`clients`(name,phoneNum)VALUES('CoffeAndTea','097895765');
+INSERT INTO `mydb`.`clients`(name,phoneNum)VALUES('Laska','0984356765');

@@ -21,18 +21,23 @@ public class OrderService {
 
     private static final Logger LOGGER = Logger.getLogger(OrderService.class.getName());
 
-    private ConnectionService connectionService;
-    private final Connection connection = connectionService.getConnection();
+    private final Connection connection; 
     private ClientService clientService;
     private GoodsService goodsService;
 
-    private final String addOrder = "insert into Order (code,client) values(?,?)";
-    private final String addGoodsToOrder = "insert into order_goods (ord_id, goods_id) values(?,?)";
-    private final String selectOrderByCode = "select * from Orders where code=?";
+    public OrderService(Connection connection) {
+        this.connection = connection;
+    }
+    
+    
+
+    private final String addOrder = "insert into mydb.order (code,client) values(?,?)";
+    private final String addGoodsToOrder = "insert into mydb.order_goods (ord_id, goods_id) values(?,?)";
+    private final String selectOrderByCode = "select * from mydb.orders where code=?";
    
 
     public void addOrder(String clPhoneNum, List<Goods> orderList) throws SQLException {
-        Client client = new ClientService().isExists(clPhoneNum);
+        Client client = new ClientService(connection).isExists(clPhoneNum);
         ResultSet resultSet = null;
         PreparedStatement statement;
         if (null != client) {
@@ -62,7 +67,7 @@ public class OrderService {
 
     public void addToOrderGoods(int ordId, Goods goods) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(addGoodsToOrder);
-        Goods g = new GoodsService().isExists(goods.getArticul());
+        Goods g = new GoodsService(connection).isExists(goods.getArticul());
         if(null!=g){
          statement.setInt(0, ordId);
          statement.setInt(1, g.getId());
@@ -78,8 +83,8 @@ public class OrderService {
         ResultSet resultSet = statement.executeQuery();
         Order order = new Order();  
         order.setCode(resultSet.getString("code"));
-        order.setCustomer(new ClientService().getById(resultSet.getInt("client_id")));
-        order.setGoods(new GoodsService().getGoodsByOrdersId(resultSet.getInt("id")));        
+        order.setCustomer(new ClientService(connection).getById(resultSet.getInt("client_id")));
+        order.setGoods(new GoodsService(connection).getGoodsByOrdersId(resultSet.getInt("id")));        
         return order;
         
     }

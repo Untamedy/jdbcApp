@@ -18,12 +18,14 @@ public class ClientService {
     
     private static final Logger LOGGER = Logger.getLogger(ClientService.class.getName());
 
-    private ConnectionService connectionService;
-    private final Connection connection = connectionService.getConnection();
+    private final Connection connection;
 
-    String addClisent = "INSERT into Client (name,phoneNum) values (?,?) ";
+    String addClisent = "INSERT into mydb.clients (name,phoneNum) values (?,?) ";
 
-    public ClientService() {
+   
+        
+    public ClientService(Connection connection) {
+        this.connection = connection;
     }
 
     public void addClient(String name, String phoneNumber) {
@@ -47,7 +49,7 @@ public class ClientService {
         Client client = null;
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select* from Client where phoneNum=" + phoneNumber);
+            ResultSet resultSet = statement.executeQuery("select* from mydb.clients where phoneNum=" + phoneNumber);
             if (null != resultSet) {
                 client = new Client();
                 client.setId(resultSet.getInt("id"));
@@ -65,7 +67,7 @@ public class ClientService {
         Client client = null;
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select* from Client where id=" + id);
+            ResultSet resultSet = statement.executeQuery("select* from mydb.clients where id=" + id);
             if (null != resultSet) {
                 client = new Client();
                 client.setId(resultSet.getInt("id"));
