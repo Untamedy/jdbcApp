@@ -1,6 +1,5 @@
 package homework.flats.services;
 
-
 import homework.commonInit.ConnectionService;
 import homework.flats.entities.Address;
 import homework.flats.entities.Flat;
@@ -78,13 +77,13 @@ public class FilterService {
     }
 
     public Flat createNewFlat(ResultSet resultSet) throws SQLException {
-        Flat flat = new Flat();        
-            flat.setId(resultSet.getInt("id"));
-            flat.setRegion(resultSet.getString("region"));
-            flat.setRooms(resultSet.getInt("room"));
-            flat.setSqueare(resultSet.getInt("square"));
-            flat.setPrice(resultSet.getDouble("price"));
-            flat.setAddress(getAddress(resultSet.getInt("addressId")));      
+        Flat flat = new Flat();
+        flat.setId(resultSet.getInt("id"));
+        flat.setRegion(resultSet.getString("region"));
+        flat.setRooms(resultSet.getInt("room"));
+        flat.setSqueare(resultSet.getInt("square"));
+        flat.setPrice(resultSet.getDouble("price"));
+        flat.setAddress(getAddress(resultSet.getInt("addressId")));
 
         return flat;
     }
@@ -99,7 +98,6 @@ public class FilterService {
                 address.setStreet(resultSet.getString("street"));
                 address.setBuildNum(resultSet.getInt("buildNum"));
             }
-
         } catch (SQLException ex) {
             Logger.getLogger(FilterService.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -114,11 +112,11 @@ public class FilterService {
         }
         return result;
     }
-    
+
     public static enum Parameters {
-      price,
-      square,
-      room
-}
+        price,
+        square,
+        room
+    }
 
 }
