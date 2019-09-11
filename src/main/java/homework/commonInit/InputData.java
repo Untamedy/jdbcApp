@@ -25,16 +25,20 @@ public class InputData {
         this.connectionService = connectionService;
     }
 
-    public void executeSQL(String path) {
-        Connection connection = connectionService.getConnection();
+    public void executeSQL(String path) throws SQLException {
+        Connection connection = connectionService.getConnection();        
+        
         try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
+            connection.setAutoCommit(false);
             String line = "";
             Statement statement = connection.createStatement();
             while ((line = reader.readLine()) != null) {               
                 statement.addBatch(line);
             }
             statement.executeBatch();
+            connection.commit();
         } catch (SQLException | IOException ex) {
+            connection.rollback();
             Logger.getLogger(InputData.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

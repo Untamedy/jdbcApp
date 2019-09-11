@@ -30,6 +30,7 @@ public class FilterService {
     }
 
     public List<Flat> selectBy(Parameters parameter, int min, int max) {
+        
         List<Flat> flats = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();

@@ -1,6 +1,5 @@
 package homework.store.services;
 
-import homework.commonInit.ConnectionService;
 import homework.store.entities.Client;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -28,15 +27,18 @@ public class ClientService {
         this.connection = connection;
     }
 
-    public void addClient(String name, String phoneNumber) {
+    public void addClient(String name, String phoneNumber) throws SQLException {
         Client client = isExists(phoneNumber);
         if (null == client) {
             try {
+                connection.setAutoCommit(false);
                 PreparedStatement statement = connection.prepareStatement(addClisent);
                 statement.setObject(1, name);
                 statement.setObject(2, phoneNumber);
                 statement.execute();
+                connection.commit();
             } catch (SQLException ex) {
+                connection.rollback();
                 LOGGER.warning(ex.getMessage());
             }
         }else{

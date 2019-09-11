@@ -30,16 +30,19 @@ public class GoodsService {
 
     String addGoods = "INSERT into mydb.goods (name,articul) values (?,?) ";
 
-    public void addGoods(String name, int articul) {
+    public void addGoods(String name, int articul) throws SQLException {
         Goods goods = isExists(articul);
         if (null == goods) {
             try {
+                connection.setAutoCommit(false);
                 PreparedStatement statement = connection.prepareStatement(addGoods);
                 statement.setObject(1, name);
                 statement.setObject(2, articul);
                 statement.execute();
+                connection.commit();
             } catch (SQLException ex) {
                 LOGGER.warning(ex.getMessage());
+                connection.rollback();
             }
         } else {
             LOGGER.log(Level.INFO, "Goods with this articul is alredy exists-> {0}", goods.toString());

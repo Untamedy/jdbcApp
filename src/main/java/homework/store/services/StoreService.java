@@ -36,12 +36,20 @@ public class StoreService {
     
     public void addNewClient(String name, String phoneNum){
         clientService = new ClientService(connection);        
-        clientService.addClient(name,phoneNum);
+        try {
+            clientService.addClient(name,phoneNum);
+        } catch (SQLException ex) {
+            Logger.getLogger(StoreService.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void addGoods(String name, int articul){
         goodsService = new GoodsService(connection);
-        goodsService.addGoods(name, articul);        
+        try {        
+            goodsService.addGoods(name, articul);
+        } catch (SQLException ex) {
+            Logger.getLogger(StoreService.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void addOrder(String clPhone, List<Goods> orderList) throws SQLException{
