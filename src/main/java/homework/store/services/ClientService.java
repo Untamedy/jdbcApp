@@ -51,8 +51,9 @@ public class ClientService {
         Client client = null;
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select* from mydb.clients where phoneNum=" + phoneNumber);
-            if (null != resultSet) {
+            ResultSet resultSet = statement.executeQuery("select * from mydb.clients where phoneNum=" + phoneNumber);
+                
+            if (resultSet.next()){
                 client = new Client();
                 client.setId(resultSet.getInt("id"));
                 client.setName(resultSet.getString("name"));

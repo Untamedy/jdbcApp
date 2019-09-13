@@ -23,14 +23,14 @@ public class OrderService {
     private final Connection connection;
     private ClientService clientService;
     private GoodsService goodsService;
-    private int code;
+    private int code = 1;
     private String curentCode = "Ord" + code;
 
     public OrderService(Connection connection) {
         this.connection = connection;
     }
 
-    private final String addOrder = "insert into mydb.order (code,client) values(?,?)";
+    private final String addOrder = "insert into mydb.order (code,client_id) values(?,?)";
     private final String addGoodsToOrder = "insert into mydb.order_goods (ord_id, goods_id) values(?,?)";
     private final String selectOrderByCode = "select * from mydb.orders where code=?";
 
@@ -41,9 +41,9 @@ public class OrderService {
         if (null != client) {
             try {
                 statement = connection.prepareStatement(addOrder);
-                statement.setString(0, curentCode);
-                statement.setInt(1, client.getId());
-                resultSet = statement.executeQuery();
+                statement.setString(1, curentCode);
+                statement.setInt(2, client.getId());
+                resultSet = statement.executeUpdate();
             } catch (SQLException ex) {
                 LOGGER.warning(ex.getMessage());
             }

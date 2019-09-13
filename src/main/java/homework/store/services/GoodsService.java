@@ -54,11 +54,11 @@ public class GoodsService {
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("select * from mydb.goods where articul=" + articul);
-            if (null != resultSet) {
+            if (resultSet.next()) {
                 goods = new Goods();
                 goods.setId(resultSet.getInt("id"));
                 goods.setName(resultSet.getString("name"));
-                goods.setArticul(resultSet.getInt(articul));
+                goods.setArticul(resultSet.getInt("articul"));
             }
 
         } catch (SQLException ex) {
