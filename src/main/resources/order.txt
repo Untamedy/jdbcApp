@@ -1,1 +1,1 @@
-insert into mydb.orders (code,client_id) values('order_1',1)
+insert into mydb.orders (code,client_id) values('order_test',1)

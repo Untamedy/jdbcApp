@@ -1,0 +1,10 @@
+INSERT INTO `mydb`.`address`(street,buildNum) VALUES('First', 2);
+INSERT INTO `mydb`.`address`(street,buildNum) VALUES('Second', 23);
+INSERT INTO `mydb`.`address`(street,buildNum) VALUES('Fourth', 5);
+INSERT INTO `mydb`.`address`(street,buildNum) VALUES('Fifth', 1);
+INSERT INTO `mydb`.`address`(street,buildNum) VALUES('Third', 28);
+INSERT INTO `mydb`.`flats`(region,addressId,room,square,price)VALUES('west',1,2,50,44000);
+INSERT INTO `mydb`.`flats`(region,addressId,room,square,price)VALUES('east',2,1,44,24000);
+INSERT INTO `mydb`.`flats`(region,addressId,room,square,price)VALUES('west',3,3,69,55000);
+INSERT INTO `mydb`.`flats`(region,addressId,room,square,price)VALUES('south',4,2,46,36000);
+INSERT INTO `mydb`.`flats`(region,addressId,room,square,price)VALUES('east',4,2,58,38000);

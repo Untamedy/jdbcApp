@@ -5,11 +5,13 @@
  */
 package homework.flats.entities;
 
+
+
 /**
  *
  * @author Lenovo
  */
-public class Address {
+public class Address {    
     
     private String street;
     private int buildNum;

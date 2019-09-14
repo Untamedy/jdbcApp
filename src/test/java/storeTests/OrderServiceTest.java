@@ -34,8 +34,9 @@ public class OrderServiceTest extends Assert {
     private static Connection connection;
     private static PropertyReader reader;
     private static List<Goods> goods = new ArrayList<>();
-    private static String path = "src\\main\\resources\\prop.properties";
-    private static  String sql = "src\\main\\resources\\createTable.txt";
+    //private static String path = "src\\main\\resources\\prop.properties";
+    private static String path = "src\\main\\resources\\propmysql.properties";
+    
 
     @BeforeClass
     public static void init() {
@@ -47,7 +48,7 @@ public class OrderServiceTest extends Assert {
         InputData input = new InputData(connectionService);
         try {
             goods = goodsService.getGoodsSublist(1, 3);
-            input.executeSQL(sql);
+            input.populateDB();
         } catch (SQLException ex) {
             Logger.getLogger(GoodsServiceTest.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -65,6 +66,12 @@ public class OrderServiceTest extends Assert {
             Logger.getLogger(OrderServiceTest.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+    
+    @Test
+    public void getOrder(){
+        Order order = orderService.getOrder("order_test");
+        assertTrue(order.getCustomer().getName().equals("WillaRoza"));
     }
 
 }

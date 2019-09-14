@@ -26,16 +26,15 @@ import org.junit.Test;
  */
 public class FlatFilterTest extends Assert {
 
-    private static ConnectionService connectionService;    
+    private static ConnectionService connectionService;
     private static FilterService service;
-    private static String path = "src\\main\\resources\\prop.properties"; 
-    
-    
+    //private static String path = "src\\main\\resources\\prop.properties";
+    private static String path = "src\\main\\resources\\propmysql.properties";
 
     @BeforeClass
     public static void getConnection() {
         PropertyReader reader = new PropertyReader(path);
-        connectionService = new ConnectionService(reader);       
+        connectionService = new ConnectionService(reader);
         service = new FilterService(connectionService);
         InputData input = new InputData(connectionService);
         try {
@@ -46,27 +45,27 @@ public class FlatFilterTest extends Assert {
     }
 
     @Test
-    public void selectByRoomCount() {                 
+    public void selectByRoomCount() {
         List<Flat> flats = service.selectBy(FilterService.Parameters.room, 1, 3);
-        flats.forEach((f)->{
-            assertTrue(f.getRooms()<3&&f.getRooms()>1);
+        flats.forEach((f) -> {
+            assertTrue(f.getRooms() < 3 && f.getRooms() > 1);
         });
-        
+
     }
 
     @Test
     public void selectBySquare() {
         List<Flat> flats = service.selectBy(FilterService.Parameters.square, 20, 40);
-        flats.forEach((f)->{
-            assertTrue(f.getSqueare()<40&&f.getSqueare()>20);
+        flats.forEach((f) -> {
+            assertTrue(f.getSqueare() < 40 && f.getSqueare() > 20);
         });
     }
 
     @Test
     public void selectByPrice() {
         List<Flat> flats = service.selectBy(FilterService.Parameters.price, 10000, 30000);
-        flats.forEach((f)->{
-            assertTrue(f.getPrice()<30000&&f.getPrice()>10000);
+        flats.forEach((f) -> {
+            assertTrue(f.getPrice() < 30000 && f.getPrice() > 10000);
         });
     }
 
@@ -90,7 +89,7 @@ public class FlatFilterTest extends Assert {
 
     @AfterClass
     public static void closeConnect() throws SQLException {
-   
+
     }
 
 }

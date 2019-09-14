@@ -9,7 +9,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -17,6 +16,7 @@ import java.util.logging.Logger;
  * @author Lenovo
  */
 public class PropertyReader {
+    private static final Logger LOGGER = Logger.getLogger(PropertyReader.class.getName());
 
     private final Properties property = new Properties();
     private String path;
@@ -31,9 +31,9 @@ public class PropertyReader {
             property.load(reader);
 
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(PropertyReader.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.warning(ex.getMessage());
         } catch (IOException ex) {
-            Logger.getLogger(PropertyReader.class.getName()).log(Level.SEVERE, null, ex);
+           LOGGER.warning(ex.getMessage());
         }
 
         return property;

@@ -27,7 +27,7 @@ public class ClientService {
         this.connection = connection;
     }
 
-    public void addClient(String name, String phoneNumber) throws SQLException {
+    public void addClient(String name, String phoneNumber)  {
         Client client = isExists(phoneNumber);
         if (null == client) {
             try {
@@ -38,7 +38,11 @@ public class ClientService {
                 statement.execute();
                 connection.commit();
             } catch (SQLException ex) {
-                connection.rollback();
+                try {
+                    connection.rollback();
+                } catch (SQLException ex1) {
+                    LOGGER.warning(ex.getMessage());
+                }
                 LOGGER.warning(ex.getMessage());
             }
         }else{

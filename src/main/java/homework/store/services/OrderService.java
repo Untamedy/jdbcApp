@@ -23,7 +23,7 @@ public class OrderService {
 
     private final Connection connection;
     private ClientService clientService;
-    private GoodsService goodsService;       
+    private GoodsService goodsService;
 
     public OrderService(Connection connection) {
         this.connection = connection;
@@ -33,9 +33,9 @@ public class OrderService {
     private final String addGoodsToOrder = "insert into mydb.orders_goods (order_id, goods_id) values(?,?)";
     private final String selectOrderByCode = "select * from mydb.orders where code=?";
 
-    public void addOrder(String clPhoneNum, List<Goods> orderList) throws SQLException {
+    public void addOrder(String clPhoneNum, List<Goods> orderList) {
         Client client = new ClientService(connection).isExists(clPhoneNum);
-        ResultSet resultSet=null;
+        ResultSet resultSet = null;
         PreparedStatement statement;
         String code = generateCode();
         Order order = isExists(code);
@@ -45,8 +45,8 @@ public class OrderService {
                     statement = connection.prepareStatement(addOrder);
                     statement.setString(1, code);
                     statement.setInt(2, client.getId());
-                   statement.execute();              
-                   
+                    statement.execute();
+
                 } catch (SQLException ex) {
                     LOGGER.warning(ex.getMessage());
                 }
@@ -54,19 +54,25 @@ public class OrderService {
                 LOGGER.log(Level.INFO, "You should to create client with this phonenumber - {0}", clPhoneNum);
             }
         }
-        Statement statement1 = connection.createStatement();
-        ResultSet resultSet1 = statement1.executeQuery("select * from mydb.orders where code ="+"'"+code+"'");
 
-        if (resultSet1.next()) {
-            int orderId = resultSet1.getInt("id");
-            orderList.forEach((Goods g) -> {
-                try {
-                    addToOrderGoods(orderId, g);
-                } catch (SQLException ex) {
-                    Logger.getLogger(OrderService.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            });
+        int orderId;
+        try {
+            Statement statement1 = connection.createStatement();
+            ResultSet resultSet1 = statement1.executeQuery("select * from mydb.orders where code =" + "'" + code + "'");
+            if (resultSet1.next()) {
+                orderId = resultSet1.getInt("id");
+                orderList.forEach((Goods g) -> {
+                    try {
+                        addToOrderGoods(orderId, g);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(OrderService.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderService.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     public void addToOrderGoods(int ordId, Goods goods) throws SQLException {
@@ -81,37 +87,49 @@ public class OrderService {
         }
     }
 
-    public Order getOrder(String code) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(selectOrderByCode);
-        statement.setObject(1, code);
-        ResultSet resultSet = statement.executeQuery();
-         Order order = new Order();
-        if(resultSet.next()){            
-        order.setCode(resultSet.getString("code"));
-        order.setCustomer(new ClientService(connection).getById(resultSet.getInt("client_id")));
-        order.setGoods(new GoodsService(connection).getGoodsByOrdersId(resultSet.getInt("id")));
-        }       
+    public Order getOrder(String code) {
+       Order order = new Order(); 
+        try {
+             PreparedStatement statement = connection.prepareStatement(selectOrderByCode);
+            statement.setObject(1, code);
+            ResultSet resultSet = statement.executeQuery();          
+            if (resultSet.next()) {
+                order.setCode(resultSet.getString("code"));
+                order.setCustomer(new ClientService(connection).getById(resultSet.getInt("client_id")));
+                order.setGoods(new GoodsService(connection).getGoodsByOrdersId(resultSet.getInt("id")));
+            }            
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
         return order;
 
     }
 
-    public Order isExists(String code) throws SQLException {
+    public Order isExists(String code) {
         Order order = null;
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("select * from mydb.orders where code=" + "'" + code + "'");
-        if (resultSet.next()) {
-            order = new Order();
-            order.setCode(resultSet.getString("code"));
-            order.setId(resultSet.getInt("id"));
+
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("select * from mydb.orders where code=" + "'" + code + "'");
+            if (resultSet.next()) {
+                order = new Order();
+                order.setCode(resultSet.getString("code"));
+                order.setId(resultSet.getInt("id"));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderService.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         return order;
     }
 
     private String generateCode() {
         Random random = new Random();
         int code = random.nextInt();
-        String curentCode = "order_"+code;
+        String curentCode = "order_" + code;
         return curentCode;
     }
-    
+
 }

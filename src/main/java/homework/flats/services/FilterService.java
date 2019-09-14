@@ -1,6 +1,7 @@
 package homework.flats.services;
 
 import homework.commonInit.ConnectionService;
+import homework.commonInit.InputData;
 import homework.flats.entities.Address;
 import homework.flats.entities.Flat;
 import java.sql.Connection;
@@ -17,6 +18,7 @@ import java.util.logging.Logger;
  * @author YBolshakova
  */
 public class FilterService {
+    private static final Logger LOGGER = Logger.getLogger(FilterService.class.getName());
 
     private ConnectionService connectionService;
     private Connection connection;
@@ -38,7 +40,7 @@ public class FilterService {
             flats = createFlats(results);
 
         } catch (SQLException ex) {
-            Logger.getLogger(FilterService.class.getName()).log(Level.SEVERE, null, ex);
+           LOGGER.warning(ex.getMessage());
         }
         return flats;
     }
@@ -50,7 +52,7 @@ public class FilterService {
             ResultSet results = statement.executeQuery("select * from mydb.flats where region=" + region);
             flats = createFlats(results);
         } catch (SQLException ex) {
-            Logger.getLogger(FilterService.class.getName()).log(Level.SEVERE, null, ex);
+           LOGGER.warning(ex.getMessage());
         }
         return flats;
     }
@@ -63,7 +65,7 @@ public class FilterService {
             ResultSet resultSets = statement.executeQuery("select * from mydb.flat where addressId=" + resultSet.getInt("id"));
             flats = createFlats(resultSets);
         } catch (SQLException ex) {
-            Logger.getLogger(FilterService.class.getName()).log(Level.SEVERE, null, ex);
+          LOGGER.warning(ex.getMessage());
         }
         return flats;
     }
@@ -100,7 +102,7 @@ public class FilterService {
                 address.setBuildNum(resultSet.getInt("buildNum"));
             }
         } catch (SQLException ex) {
-            Logger.getLogger(FilterService.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.warning(ex.getMessage());
         }
         return address;
     }

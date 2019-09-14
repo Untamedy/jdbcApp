@@ -18,6 +18,7 @@ import java.util.logging.Logger;
  * @author Lenovo
  */
 public class ConnectionService {
+    private static final Logger LOGGER = Logger.getLogger(ConnectionService.class.getName());
     
     private PropertyReader propReader;
     
@@ -32,7 +33,7 @@ public class ConnectionService {
         try {
         connection = DriverManager.getConnection(property.getProperty("url"),property.getProperty("login"),property.getProperty("password"));
         } catch (SQLException ex) {
-            Logger.getLogger(ConnectionService.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.warning(ex.getMessage());
         }
         return connection;
       
