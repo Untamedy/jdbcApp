@@ -1,6 +1,0 @@
-Insert into mydb.flats (region,addressId,room,square,price) values('west',1,2,50,44000)
-Insert into mydb.flats (region,addressId,room,square,price) values('east',2,1,44,24000)
-Insert into mydb.flats (region,addressId,room,square,price) values('west',3,3,69,55000)
-Insert into mydb.flats (region,addressId,room,square,price) values('south',4,2,46,36000)
-Insert into mydb.flats (region,addressId,room,square,price) values('west',5,1,36,18000)
-Insert into mydb.flats (region,addressId,room,square,price) values('east',4,2,58,38000)

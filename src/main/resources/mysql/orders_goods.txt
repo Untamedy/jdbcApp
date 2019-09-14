@@ -1,1 +1,0 @@
-insert into mydb.orders_goods (order_id,goods_id) values(1,1)

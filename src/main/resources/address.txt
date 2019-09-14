@@ -1,5 +1,0 @@
-INSERT INTO mydb.address (street,buildNum) values('First', 2)
-INSERT INTO mydb.address (street,buildNum) values('Second', 23)
-INSERT INTO mydb.address (street,buildNum) values('Third', 28)
-INSERT INTO mydb.address (street,buildNum) values('Fourth', 5)
-INSERT INTO mydb.address (street,buildNum) values('Fifth', 1)
