@@ -1,6 +1,5 @@
 package homework.store.services;
 
-import homework.commonInit.ConnectionService;
 import homework.store.entities.Client;
 import homework.store.entities.Goods;
 import homework.store.entities.Order;
@@ -8,7 +7,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,36 +23,42 @@ public class OrderService {
 
     private final Connection connection;
     private ClientService clientService;
-    private GoodsService goodsService;
-    private int code = 1;
-    private String curentCode = "Ord" + code;
+    private GoodsService goodsService;       
 
     public OrderService(Connection connection) {
         this.connection = connection;
     }
 
-    private final String addOrder = "insert into mydb.order (code,client_id) values(?,?)";
-    private final String addGoodsToOrder = "insert into mydb.order_goods (ord_id, goods_id) values(?,?)";
+    private final String addOrder = "insert into mydb.orders (code,client_id) values(?,?)";
+    private final String addGoodsToOrder = "insert into mydb.orders_goods (order_id, goods_id) values(?,?)";
     private final String selectOrderByCode = "select * from mydb.orders where code=?";
 
     public void addOrder(String clPhoneNum, List<Goods> orderList) throws SQLException {
         Client client = new ClientService(connection).isExists(clPhoneNum);
-        ResultSet resultSet = null;
+        ResultSet resultSet=null;
         PreparedStatement statement;
-        if (null != client) {
-            try {
-                statement = connection.prepareStatement(addOrder);
-                statement.setString(1, curentCode);
-                statement.setInt(2, client.getId());
-                resultSet = statement.executeUpdate();
-            } catch (SQLException ex) {
-                LOGGER.warning(ex.getMessage());
+        String code = generateCode();
+        Order order = isExists(code);
+        if (order == null) {
+            if (null != client) {
+                try {
+                    statement = connection.prepareStatement(addOrder);
+                    statement.setString(1, code);
+                    statement.setInt(2, client.getId());
+                   statement.execute();              
+                   
+                } catch (SQLException ex) {
+                    LOGGER.warning(ex.getMessage());
+                }
+            } else {
+                LOGGER.log(Level.INFO, "You should to create client with this phonenumber - {0}", clPhoneNum);
             }
-        } else {
-            LOGGER.log(Level.INFO, "You should to create client with this phonenumber - {0}", clPhoneNum);
         }
-        if (null != resultSet) {
-            int orderId = resultSet.getInt("id");
+        Statement statement1 = connection.createStatement();
+        ResultSet resultSet1 = statement1.executeQuery("select * from mydb.orders where code ="+"'"+code+"'");
+
+        if (resultSet1.next()) {
+            int orderId = resultSet1.getInt("id");
             orderList.forEach((Goods g) -> {
                 try {
                     addToOrderGoods(orderId, g);
@@ -66,8 +73,8 @@ public class OrderService {
         PreparedStatement statement = connection.prepareStatement(addGoodsToOrder);
         Goods g = new GoodsService(connection).isExists(goods.getArticul());
         if (null != g) {
-            statement.setInt(0, ordId);
-            statement.setInt(1, g.getId());
+            statement.setInt(1, ordId);
+            statement.setInt(2, g.getId());
             statement.execute();
         } else {
             LOGGER.info("You should create goods with articul =" + goods.getArticul());
@@ -76,25 +83,35 @@ public class OrderService {
 
     public Order getOrder(String code) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(selectOrderByCode);
-        statement.setObject(0, code);
+        statement.setObject(1, code);
         ResultSet resultSet = statement.executeQuery();
-        Order order = new Order();
+         Order order = new Order();
+        if(resultSet.next()){            
         order.setCode(resultSet.getString("code"));
         order.setCustomer(new ClientService(connection).getById(resultSet.getInt("client_id")));
         order.setGoods(new GoodsService(connection).getGoodsByOrdersId(resultSet.getInt("id")));
+        }       
         return order;
 
     }
 
-    private int generateCode() {
-        code += 1;
-        return code ;
+    public Order isExists(String code) throws SQLException {
+        Order order = null;
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select * from mydb.orders where code=" + "'" + code + "'");
+        if (resultSet.next()) {
+            order = new Order();
+            order.setCode(resultSet.getString("code"));
+            order.setId(resultSet.getInt("id"));
+        }
+        return order;
     }
 
-    public String getCurentCode() {
+    private String generateCode() {
+        Random random = new Random();
+        int code = random.nextInt();
+        String curentCode = "order_"+code;
         return curentCode;
     }
     
-    
-
 }

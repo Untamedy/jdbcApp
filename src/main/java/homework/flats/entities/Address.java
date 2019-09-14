@@ -40,7 +40,7 @@ public class Address {
 
     @Override
     public String toString() {
-        return "street=" + street + " " + buildNum;
+        return street +"_" + buildNum;
     }
     
     

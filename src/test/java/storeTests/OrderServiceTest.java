@@ -28,17 +28,18 @@ import org.junit.Test;
  */
 public class OrderServiceTest extends Assert {
 
-    private OrderService orderService;
-    private GoodsService goodsService;
-    private ConnectionService connectionService;
-    private Connection connection;
-    private List<Goods> goods = new ArrayList<>();
-    private String path = "src\\main\\resources\\prop.properties";
-    private String sql = "src\\main\\resources\\createTable.txt";
+    private static OrderService orderService;
+    private static GoodsService goodsService;
+    private static ConnectionService connectionService;
+    private static Connection connection;
+    private static PropertyReader reader;
+    private static List<Goods> goods = new ArrayList<>();
+    private static String path = "src\\main\\resources\\prop.properties";
+    private static  String sql = "src\\main\\resources\\createTable.txt";
 
     @BeforeClass
-    public void init() {
-        PropertyReader reader = new PropertyReader(path);
+    public static void init() {
+        reader = new PropertyReader(path);
         connectionService = new ConnectionService(reader);
         connection = connectionService.getConnection();
         orderService = new OrderService(connection);
@@ -58,7 +59,7 @@ public class OrderServiceTest extends Assert {
             List<Goods> list = goodsService.getGoodsSublist(1, 3);
             orderService = new OrderService(connection);
             orderService.addOrder("098765765", list);
-            Order order = orderService.getOrder(orderService.getCurentCode());
+            Order order = orderService.getOrder("order_4");
             assertNotNull(order);
         } catch (SQLException ex) {
             Logger.getLogger(OrderServiceTest.class.getName()).log(Level.SEVERE, null, ex);

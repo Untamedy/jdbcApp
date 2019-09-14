@@ -15,17 +15,18 @@ import org.junit.Test;
 
 public class ClientServiceTest extends Assert {
 
-    private ClientService clientService;
-    private ConnectionService connectionService;
-    private Connection conection;
-    private String path = "src\\main\\resources\\prop.properties";
-    private String sql = "src\\main\\resources\\createTable.txt";
+    private static ClientService clientService;
+    private static ConnectionService connectionService;
+    private static Connection conection;
+    private static String path = "src\\main\\resources\\prop.properties";
+    private static String sql = "src\\main\\resources\\createTable.txt";
 
     @BeforeClass
-    public void init() {
+    public static void init() {
         PropertyReader reader = new PropertyReader(path);
         connectionService = new ConnectionService(reader);
         conection = connectionService.getConnection();
+        clientService = new ClientService(conection);
         InputData input = new InputData(connectionService);
         try {
             input.executeSQL(sql);

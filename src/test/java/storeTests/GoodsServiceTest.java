@@ -19,17 +19,18 @@ import org.junit.Test;
  */
 public class GoodsServiceTest extends Assert {
 
-    private GoodsService goodsService;
-    private ConnectionService connectionService;
-    private Connection connection;
-    private String path = "src\\main\\resources\\prop.properties";
-    private String sql = "src\\main\\resources\\createTable.txt";
+    private static GoodsService goodsService;
+    private static ConnectionService connectionService;
+    private static Connection connection;
+    private static String path = "src\\main\\resources\\prop.properties";
+    private static String sql = "src\\main\\resources\\createTable.txt";
 
     @BeforeClass
-    public void init() {
+    public static void init() {
         PropertyReader reader = new PropertyReader(path);
         connectionService = new ConnectionService(reader);
         connection = connectionService.getConnection();
+        goodsService = new GoodsService(connection);
         InputData input = new InputData(connectionService);
         try {
             input.executeSQL(sql);

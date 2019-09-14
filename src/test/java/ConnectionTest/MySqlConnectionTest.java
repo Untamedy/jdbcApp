@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import org.junit.After;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -22,12 +23,12 @@ import org.junit.Test;
  */
 public class MySqlConnectionTest {
     
-    private ConnectionService conectionService;
-    private String path = "src\\main\\resources\\propmysql.properties";
-    private Connection connection;
+    private static ConnectionService conectionService;
+    private static String path = "src\\main\\resources\\prop.properties";
+    private static Connection connection;
     
-    @Before
-    public void getConection(){
+    @BeforeClass
+    public static void getConection(){
         PropertyReader reader = new PropertyReader(path);
         conectionService = new ConnectionService(reader);
                
@@ -36,7 +37,7 @@ public class MySqlConnectionTest {
     @Test
     public void isConnected(){
         connection = conectionService.getConnection();
-        assertTrue(connection!=null);        
+        assertNotNull(connection);        
     }
     
     @After

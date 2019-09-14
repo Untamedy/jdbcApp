@@ -7,6 +7,7 @@ package homework.store.services;
 
 import homework.commonInit.ConnectionService;
 import homework.store.entities.Goods;
+import homework.store.entities.Order;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -60,6 +61,11 @@ public class StoreService {
             Logger.getLogger(StoreService.class.getName()).log(Level.SEVERE, null, ex);
         }    
     }  
+    
+    public Order getOrder(String code) throws SQLException{
+        orderService = new OrderService(connection);
+       return orderService.getOrder(code);
+    }
     
     public List<Goods> getDataToOrder(int start, int end) throws SQLException{
         List<Goods> sublistFortest = new GoodsService(connection).getGoodsSublist(start, end);
