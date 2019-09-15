@@ -38,13 +38,10 @@ public class ClientServiceTest extends Assert {
     }
 
     @Test
-    public void addClient() {
-        try {
+    public void addClient() {        
             clientService.addClient("Allan", "2056854");
             Client newClient = clientService.isExists("2056854");
             assertNotNull(newClient);
-        } catch (SQLException ex) {
-            Logger.getLogger(ClientServiceTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       
     }
 }
